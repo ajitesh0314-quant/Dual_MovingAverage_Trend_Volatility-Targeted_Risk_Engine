@@ -22,13 +22,14 @@ A systematic, vector-based quantitative trading strategy and dynamic risk budget
 
 ### 1. Directional Core & Institutional Participation Filter
 The strategy generates signals using a fast/slow Exponential Moving Average pair (9-EMA / 21-EMA) overlaid with an institutional liquidity filter. Trades are only executed when volume confirms market participation:
-* **Long Entry:** $\text{EMA}_9 > \text{EMA}_{21} \quad \text{AND} \quad \text{Volume} > \text{SMA}_{20}(\text{Volume})$
-* **Short Entry:** $\text{EMA}_9 < \text{EMA}_{21} \quad \text{AND} \quad \text{Volume} > \text{SMA}_{20}(\text{Volume})$
-* **Neutral / Cash:** Volume does not confirm trend strength.
+* **Long Entry:** `EMA_9 > EMA_21` AND `Volume > SMA_20(Volume)`
+* **Short Entry:** `EMA_9 < EMA_21` AND `Volume > SMA_20(Volume)`
+* **Neutral / Cash:** Volume does not confirm trend strength (`Position = 0`).
 
 ### 2. Zero-Lookahead Execution Framework
 To eliminate lookahead bias, all signal states determined at market close $t$ are lagged strictly by 1 day using `.shift(1)`:
-$$\text{Position}_{t} = \text{Signal}_{t-1}$$
+
+$$\text{Position}_t = \text{Signal}_{t-1}$$
 
 ### 3. Volatility-Targeted Sizing (Risk Parity Core)
 Rather than maintaining static capital exposure, the engine targets a fixed **12% annualized portfolio volatility budget** ($\sigma_{\text{target}} = 0.12$). Capital allocation scales inversely with 20-day realized volatility:
