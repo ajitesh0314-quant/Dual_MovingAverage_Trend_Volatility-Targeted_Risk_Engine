@@ -1,0 +1,16 @@
+# 1. Untrack the .idea directory from git
+git rm -r --cached .idea
+
+# 2. Create a clean .gitignore file
+cat <<EOT >> .gitignore
+.idea/
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+EOT
+
+# 3. Commit and push the clean state
+git add .gitignore
+git commit -m "chore: add .gitignore and untrack IDE files"
+git push origin main
